@@ -1,3 +1,12 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Geometry loader.
+    Provides access to raw geometric scene from file storage.
+*******************************************************************************/
+
 #include "data.h"
 
 #include <stdio.h>

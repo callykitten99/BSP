@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Enables or disables verbosity functionality in debug mode builds.
+*******************************************************************************/
+
 #ifndef VERBOSE_H
 #define VERBOSE_H
 

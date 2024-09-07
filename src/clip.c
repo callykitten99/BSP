@@ -1,3 +1,12 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Defines subroutines related to (planar) clipping of geometry in order to
+    facilitate compatibility with BSP partitioning.
+*******************************************************************************/
+
 #include "clip.h"
 #include "draw.h"
 #include "math.h"

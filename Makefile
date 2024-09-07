@@ -10,7 +10,7 @@ OBJ_D	 = $(patsubst src/%.c,o/d/%.o,$(SRC))
 OBJ_R	 = $(patsubst src/%.c,o/r/%.o,$(SRC))
 
 
-all: bsp.exe bsp_d.exe
+all: o o/r o/d bsp.exe bsp_d.exe
 
 
 bsp.exe: $(OBJ_R)
@@ -25,6 +25,16 @@ $(OBJ_R): o/r/%.o: src/%.c
 
 $(OBJ_D): o/d/%.o: src/%.c
 	$(CC) $(CFLAGS_D) $^ -o $@
+
+o/d: o
+	mkdir $@
+
+o/r: o
+	mkdir $@
+
+o:
+	mkdir $@
+
 
 clean:
 	rm o/d/*.o o/r/*.o bsp*.exe

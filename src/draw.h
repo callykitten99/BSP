@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Controls rendering of geometry (via OpenGL).
+*******************************************************************************/
+
 #ifndef DRAW_H
 #define DRAW_H
 

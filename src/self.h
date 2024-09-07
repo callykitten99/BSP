@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Additional metaglue for Object-Oriented style programming.
+*******************************************************************************/
+
 #ifndef SELF_H
 #define SELF_H
 

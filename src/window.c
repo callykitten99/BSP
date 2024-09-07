@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Facilitates interaction with the GUI window.
+*******************************************************************************/
+
 #include "camera.h"
 #include "draw.h"
 #include "select.h"

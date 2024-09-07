@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Structures the internal node ordering of the BSP tree.
+*******************************************************************************/
+
 #ifndef PART_H
 #define PART_H
 

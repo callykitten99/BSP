@@ -1,3 +1,12 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Defines subroutines related to storage allocation of primary and secondary
+    data.
+*******************************************************************************/
+
 #include "pools.h"
 #include "math.h"
 #include "verbose.h"

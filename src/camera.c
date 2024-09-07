@@ -1,3 +1,12 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Aggregates viewpoint, viewport and navigation around the geometric
+    environment.
+*******************************************************************************/
+
 #include "camera.h"
 #include "math.h"
 #include "window.h"

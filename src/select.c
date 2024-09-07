@@ -1,3 +1,15 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Defines subroutines related to:
+    - pivot selection
+    - in-place rebalancing of triangles (and corresponding
+       Hessian-Normal-Form plane aggregate data) relative to pivot
+    - coordinated construction of BSP nodes
+*******************************************************************************/
+
 #include "clip.h"
 #include "draw.h"
 #include "math.h"

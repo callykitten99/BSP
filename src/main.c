@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Defines program entry point and exit clean-up routines.
+*******************************************************************************/
+
 #include "data.h"
 #include "select.h"
 #include "window.h"

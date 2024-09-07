@@ -1,3 +1,11 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Common mathematical and geometric functions and operations.
+*******************************************************************************/
+
 #ifndef MATH_H
 #define MATH_H
 

@@ -1,3 +1,15 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Defines (secondary, recycled) Hessian-Normal-Form planar data coupled with
+    triangle geometry.
+    
+    (HNF precalculation accelerates calculations related to projection and
+     clipping required by the BSP.)
+*******************************************************************************/
+
 #ifndef PLANE_H
 #define PLANE_H
 

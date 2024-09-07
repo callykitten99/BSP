@@ -2,6 +2,14 @@
 #include "verbose.h"
 
 #include <stdio.h>
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Structures the internal node ordering of the BSP tree.
+*******************************************************************************/
+
 #include <stdlib.h>
 #include <string.h>
 

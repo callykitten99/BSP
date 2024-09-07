@@ -1,3 +1,12 @@
+/*******************************************************************************
+    Binary Spatial Partitioning Algorithm
+        Author: Callum David Ames               All Rights Reserved
+        Date Initiated: July 2024
+    
+    Aggregates viewpoint, viewport and navigation around the geometric
+    environment.
+*******************************************************************************/
+
 #ifndef CAMERA_H
 #define CAMERA_H
 
