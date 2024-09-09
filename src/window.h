@@ -9,6 +9,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+void window_cleanup(void);
+
 bool window_init_default(void);
 bool window_init(unsigned int w, unsigned int h);
 bool window_loop(void);

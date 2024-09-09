@@ -13,24 +13,36 @@
 #include "bsp.h"
 #include "window.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <GL/gl.h>
+
+#ifdef OS_WINDOWS
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+#elif defined(OS_LINUX)
+#include <unistd.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#endif
 
-#include <GL/gl.h>
-
-#include <stdio.h>
 
 
-
+#ifdef OS_WINDOWS
 extern LRESULT CALLBACK WinMsgProc(HWND,UINT,WPARAM,LPARAM);
+extern HWND g_wnd;
+#elif defined OS_LINUX
+extern Display   *g_display;
+extern Window     g_wnd;
+extern GLXContext g_glrc;
+#endif
 
 
 
 extern pools g_pool;
 extern bsp   g_bsp;
-extern HWND  g_wnd;
 
 extern unsigned int g_winw, g_winh;
 
@@ -38,8 +50,10 @@ extern bool g_lapse, g_stall;
 
 float g_ray[3] = {0.0f,0.0f,0.0f};
 
+#ifdef OS_WINDOWS
 HGLRC    g_glrc = NULL;
 HDC      g_dc   = NULL;
+#endif
 
 unsigned short
     g_bsp_l = 0, g_bsp_r = -1, g_pivot_l = 0, g_pivot_r = 0, g_pivot = -1,
@@ -52,16 +66,13 @@ DRAW_MODE g_draw_mode = DRAW_MODE_UNSPECIFIED;
 void
 draw_cleanup(void)
 {
+#ifdef OS_WINDOWS
     if (g_glrc)
     {
         wglDeleteContext(g_glrc);
         g_glrc = NULL;
     }
-    if (g_wnd)
-    {
-        DestroyWindow(g_wnd);
-        g_wnd = NULL;
-    }
+#endif
 }
 
 
@@ -69,6 +80,8 @@ draw_cleanup(void)
 bool
 draw_init(void)
 {
+#ifdef OS_WINDOWS
+
     PIXELFORMATDESCRIPTOR pfd =
     {
         sizeof(pfd),
@@ -94,7 +107,6 @@ draw_init(void)
     int pf = ChoosePixelFormat(dc, &pfd);
 
 
-
     if (!pf)
     {
         ReleaseDC(g_wnd, dc);
@@ -106,18 +118,18 @@ draw_init(void)
 
     g_glrc = wglCreateContext(dc);
     wglMakeCurrent(dc, g_glrc);
+    ReleaseDC(g_wnd, dc);
+
+#endif /* OS_WINDOWS */
 
     //fprintf(stderr, "Using OpenGL version %s.\n", glGetString(GL_VERSION));
 
     /* GL rendering params */
     glViewport(0,0, g_winw, g_winh);
     glClearDepth(1.0f);
-    
     camera_reset();
     camera_snap(g_pool.verts[0].m);
 
-    ReleaseDC(g_wnd, dc);
-    
     return true;
 }
 
@@ -157,9 +169,11 @@ static void
 draw_LR(void)
 {
     static const float clearCol[4] = { 0.2f, 0.1f, 0.4f, 1.0f };
-    
-    //camera *cam = camera_get();
+
+#ifdef OS_WINDOWS
     HDC dc = g_dc ? g_dc : GetDC(g_wnd);
+#endif
+
     vert *verts = g_pool.verts;
     face *faces = g_pool.faces;
     unsigned short i, l, pl, pr, r;
@@ -241,10 +255,13 @@ draw_LR(void)
 
     glEnd();
 
+#ifdef OS_WINDOWS
     SwapBuffers(dc);
-    
     if (!g_dc)
         ReleaseDC(g_wnd, dc);
+#elif defined OS_LINUX
+    glXSwapBuffers(g_display, g_wnd);
+#endif
 }
 
 
@@ -280,9 +297,11 @@ static void
 draw_rel(void)
 {
     static const float clearCol[4] = { 0.2f, 0.1f, 0.4f, 1.0f };
-    
-    //camera *cam = camera_get();
+
+#ifdef OS_WINDOWS
     HDC dc = g_dc ? g_dc : GetDC(g_wnd);
+#endif
+
     vert  *verts  = g_pool.verts;
     face  *faces  = g_pool.faces;
     plane *planes = g_pool.planes;
@@ -365,10 +384,13 @@ draw_rel(void)
 
     glEnd();
 
+#ifdef OS_WINDOWS
     SwapBuffers(dc);
-    
     if (!g_dc)
         ReleaseDC(g_wnd, dc);
+#elif defined OS_LINUX
+    glXSwapBuffers(g_display, g_wnd);
+#endif
 }
 
 
@@ -461,7 +483,9 @@ draw_part(bsp_ind ind, bool t)
 static void
 draw_bsp(void)
 {
+#ifdef OS_WINDOWS
     HDC dc = g_dc ? g_dc : GetDC(g_wnd);
+#endif
 
     glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
     glClearDepth(1.0f);
@@ -484,10 +508,13 @@ draw_bsp(void)
     /* Traverse the BSP */
     draw_part(0, true);
 
+#ifdef OS_WINDOWS
     SwapBuffers(dc);
-
     if (!g_dc)
         ReleaseDC(g_wnd, dc);
+#elif defined OS_LINUX
+    glXSwapBuffers(g_display, g_wnd);
+#endif
 }
 
 
@@ -495,7 +522,9 @@ draw_bsp(void)
 static void
 draw_clip(void)
 {
+#ifdef OS_WINDOWS
     HDC dc = g_dc ? g_dc : GetDC(g_wnd);
+#endif
     vert *verts = g_pool.verts;
     face *faces = g_pool.faces;
     
@@ -562,16 +591,19 @@ draw_clip(void)
     glDisable(GL_DEPTH_TEST);
     glBegin(GL_POINTS);
     
-    if (v0 != 0xFFFF) { glColor3f(1.0f, 0.0f, 0.0f);  glVertex3fv(verts[v0].m); }
-    if (v1 != 0xFFFF) { glColor3f(0.0f, 1.0f, 0.0f);  glVertex3fv(verts[v1].m); }
-    if (v2 != 0xFFFF) { glColor3f(0.0f, 0.0f, 1.0f);  glVertex3fv(verts[v2].m); }
+    if (v0 != 0xFFFF) { glColor3f(1.0f, 0.0f, 0.0f); glVertex3fv(verts[v0].m); }
+    if (v1 != 0xFFFF) { glColor3f(0.0f, 1.0f, 0.0f); glVertex3fv(verts[v1].m); }
+    if (v2 != 0xFFFF) { glColor3f(0.0f, 0.0f, 1.0f); glVertex3fv(verts[v2].m); }
     
     glEnd();
     
+#ifdef OS_WINDOWS
     SwapBuffers(dc);
-    
     if (!g_dc)
         ReleaseDC(g_wnd, dc);
+#elif defined OS_LINUX
+    glXSwapBuffers(g_display, g_wnd);
+#endif
 }
 
 
@@ -593,7 +625,12 @@ void
 draw_delay(unsigned long delay)
 {
     draw(DRAW_MODE_UNSPECIFIED);
+
+#ifdef OS_WINDOWS
     Sleep(delay);
+#elif defined(OS_LINUX)
+    usleep(delay*1000U);
+#endif
 }
 
 

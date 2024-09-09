@@ -6,13 +6,12 @@
     Defines program entry point and exit clean-up routines.
 *******************************************************************************/
 
+#include "bsp.h"
 #include "data.h"
+#include "draw.h"
 #include "select.h"
 #include "window.h"
-#include "draw.h"
-#include "bsp.h"
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -58,15 +57,13 @@ int main(int argc, char **argv)
     window_init_default();
     draw_init();
 
-    while (window_loop())
-    {
-        //Sleep(1);
-    }
+    while (window_loop());
 }
 
 void cleanup(void)
 {
     draw_cleanup();
+    window_cleanup();
     bsp_free(&g_bsp);
     pools_free(&g_pool);
 }
