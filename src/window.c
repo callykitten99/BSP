@@ -824,7 +824,8 @@ XMsgProc(XEvent *msg)
         break;
 
     case KeyRelease:
-        ks = XLookupKeysym(&msg->xkey, 0);
+        //ks = XLookupKeysym(&msg->xkey, 0);
+        XLookupString(&msg->xkey, buf, 4, &ks, NULL);
         if (ks != NoSymbol) MsgKeyUp(ks);
         break;
 
